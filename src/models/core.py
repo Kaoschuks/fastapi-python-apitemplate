@@ -1,14 +1,12 @@
-from fastapi import FastAPI, HTTPException, Depends, Request, status, WebSocket, WebSocketDisconnect, Query
+from fastapi import FastAPI, HTTPException, Depends, Request, status, Query, Response
 from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
-from functools import lru_cache
 import random
 import os
 import sys
 from dotenv import load_dotenv
-import threading as threading
-import requests as req
 import logging as logger
+
 load_dotenv()
 logger.basicConfig(level = logger.DEBUG, stream = sys.stdout)
 

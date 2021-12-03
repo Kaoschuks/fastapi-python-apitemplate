@@ -1,4 +1,7 @@
-from application.models.modules.core import os
+from src.models.core import os
+import hashlib
+import binascii
+
 
 def encrypt_val(clear_text):
     master_key = os.getenv("SECRET_KEY") 
