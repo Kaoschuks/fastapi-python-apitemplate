@@ -4,18 +4,19 @@ from src.models.dbmodel.listings_model import *
 from fastapi.responses import JSONResponse
 from datetime import datetime
 import ast
+from fastapi.routing import APIRoute
 
 
 
-class Reviews(object):
+class Reviews(APIRoute):
 
-    def add_reviews():
+    def add_reviews(review_data: IReviews, db: Session):
         try:
             pass
         except Exception as e:
             return JSONResponse(status_code = 500, content = { "error":  str(e) } )
 
-    def update_reviews(id):
+    def update_reviews(id: str, review_data: IReviews, db: Session):
         try:
             pass
         except Exception as e:

@@ -51,8 +51,6 @@ class CategoryListings(APIRoute):
 
 
 class AdsListings(APIRoute):
-
-
     async def save_an_ads(ads_data: IAdsModel, _uid: str, db: Session):
         try:
             ads_data.ads_id = ads_data.ads_id if ads_data.ads_id != None else f"ads-{str(uuid4())}".replace("-", "")

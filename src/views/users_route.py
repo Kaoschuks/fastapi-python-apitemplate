@@ -1,6 +1,10 @@
 from src.models.core import app, Depends
 from src.controllers.accounts import *
+from src.controllers.reviews import *
+from fastapi import APIRouter
 from src.models.libs.jwt import AuthJWT, validate_token
+
+reviews_router = APIRouter(route_class = Reviews)
 
 @app.post('/login', tags = ['Authentication'])
 async def login(form_data: IAuth, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
@@ -113,3 +117,20 @@ async def save_user_activity(activity_data: dict, db: Session = Depends(get_db),
 @app.get('/activities', tags = ['User Activities'], operation_id="authorize")
 async def get_user_activity(db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
     pass
+
+
+
+@reviews_router.post("/", operation_id="authorize")
+async def save_user_review(data: IReviews, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+    uid = validate_token(Authorize)
+    data.ads_id = uid
+    return await Reviews.add_reviews(data, db)
+
+@reviews_router.put("/{review_id}", operation_id="authorize")
+async def save_user_review(review_id: str, data: IReviews, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+    uid = validate_token(Authorize)
+    data.ads_id = uid
+    return await Reviews.update_reviews(data, db)
+
+
+app.include_router(reviews_router, prefix="/users/reviews", tags = ['Users Reviews'])

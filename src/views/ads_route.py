@@ -1,4 +1,5 @@
 from src.controllers.ads import *
+from src.controllers.reviews import *
 from src.models.core import app, Depends
 from fastapi import APIRouter
 from src.models.libs.jwt import AuthJWT, validate_token
@@ -6,6 +7,20 @@ from src.models.libs.jwt import AuthJWT, validate_token
 
 ads_router = APIRouter(route_class = AdsListings)
 category_router = APIRouter(route_class = CategoryListings)
+reviews_router = APIRouter(route_class = Reviews)
+
+
+
+@reviews_router.post("/", operation_id="authorize")
+async def save_ads_review(data: IReviews, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+    validate_token(Authorize)
+    return await Reviews.add_reviews(data, db)
+
+@reviews_router.put("/{review_id}", operation_id="authorize")
+async def save_ads_review(review_id: str, data: IReviews, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+    validate_token(Authorize)
+    return await Reviews.update_reviews(data, db)
+
 
 
 
@@ -67,4 +82,5 @@ async def delete_ads_info(ads_id: str = None, db: Session = Depends(get_db), Aut
 
 
 app.include_router(ads_router, prefix="/listings", tags = ['Ads Listing Management'])
-app.include_router(category_router, prefix="/listings/categories", tags = ['Ads Listing Management'])
+app.include_router(category_router, prefix="/listings/categories", tags = ['Ads Categories'])
+app.include_router(reviews_router, prefix="/listings/reviews", tags = ['Ads Reviews'])
