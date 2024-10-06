@@ -1,0 +1,34 @@
+mysql+aiomysql://root:@localhost:3306/aidefinance
+WARNING:fastapi_cache.decorator:Error retrieving cache key 'fastapi-cache::bc54929ff69d6bbfe317a9fc3ba734f9' from backend:
+Traceback (most recent call last):
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/connection.py", line 577, in connect
+    await self.retry.call_with_retry(
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/retry.py", line 59, in call_with_retry
+    return await do()
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/connection.py", line 922, in _connect
+    reader, writer = await asyncio.open_connection(
+  File "/usr/lib/python3.10/asyncio/streams.py", line 48, in open_connection
+    transport, _ = await loop.create_connection(
+  File "uvloop/loop.pyx", line 2039, in create_connection
+  File "uvloop/loop.pyx", line 2016, in uvloop.loop.Loop.create_connection
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/fastapi_cache/decorator.py", line 137, in inner
+    ttl, ret = await backend.get_with_ttl(cache_key)
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/fastapi_cache/backends/redis.py", line 16, in get_with_ttl
+    return await pipe.ttl(key).get(key).execute()
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/client.py", line 1392, in execute
+    conn = await self.connection_pool.get_connection("MULTI", self.shard_hint)
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/connection.py", line 1375, in get_connection
+    await connection.connect()
+  File "/home/favour/Development/kreador/code_templates/apis/fastapi-python/venv/lib/python3.10/site-packages/redis/asyncio/connection.py", line 585, in connect
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to localhost:6379. 111.
+INFO:     127.0.0.1:36422 - "GET /expenses HTTP/1.1" 500 Internal Server Error
+mysql+aiomysql://root:@localhost:3306/aidefinance
+INFO:     127.0.0.1:52076 - "GET /expenses HTTP/1.1" 405 Method Not Allowed
+mysql+aiomysql://root:@localhost:3306/aidefinance
+INFO:     127.0.0.1:39998 - "GET /expenses HTTP/1.1" 200 OK
